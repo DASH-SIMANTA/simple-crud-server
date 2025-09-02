@@ -27,8 +27,15 @@ async function run() {
     console.log("✅ MongoDB Connected");
 
     // Choose DB + Collection
-    const database = client.db("insertDB");
-    const userCollection = database.collection("users");
+    // const database = client.db("usersDB");
+    // const userCollection = database.collection("users");
+    const userCollection = client.db("usersDB").collection("users");
+
+    app.get('/users', async(req, res) => {
+      const cursor =userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // API: Insert a user
     app.post('/users', async (req, res) => {
